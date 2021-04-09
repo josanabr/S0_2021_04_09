@@ -1,24 +1,40 @@
+#include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <assert.h>
+#include <sys/wait.h>
 
 int fibonacci(int);
 
 int main(int argc, char* argv[]) {
   pid_t pid;
   int resultado = 0;
+  int fibo;
 
   pid = fork();
   assert(pid >= 0);
 
-  if (pid == 0) {
-    resultado = fibonacci(50);
+  if (argc == 2) {
+    fibo = atoi(argv[1]); // '50' -> 50
   } else {
+    fibo = 35;
+  }
 
+  if (pid == 0) {
+    resultado = fibonacci(fibo);
+  } else {
+    wait(NULL);
   }
   printf("Resultado %d\n",resultado);
-  return 0;
+
+  if (resultado > 0) { 
+    printf("Correcto\n");
+    return 0;
+  } else {
+    printf("Desbordamiento\n");
+    return 1;
+  }
 }
 
 int fibonacci(int num)
