@@ -7,15 +7,17 @@ int fibonacci(int);
 
 int main(int argc, char* argv[]) {
   pid_t pid;
+  int resultado = 0;
 
   pid = fork();
   assert(pid >= 0);
 
   if (pid == 0) {
-    fibonacci(50);
+    resultado = fibonacci(50);
   } else {
 
   }
+  printf("Resultado %d\n",resultado);
   return 0;
 }
 
